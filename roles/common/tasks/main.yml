@@ -3,6 +3,12 @@
 - name: Debug
   debug: var=test_var
 
+- name: Install common pkgs
+  yum: name={{ item }} state=present
+  with_items:
+  - libselinux-python
+  - bind-utils
+
 - name: Copy root cert
   copy: content={{aptinfo_root_pem_cert}}
     dest=/etc/pki/ca-trust/source/anchors/aptinfo-root.pem
