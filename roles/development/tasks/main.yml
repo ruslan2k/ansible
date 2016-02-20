@@ -3,7 +3,22 @@
 - name: Install Dev soft
   yum: name={{ item }} state=present
   with_items:
+  - "@Development tools"
   - vim-enhanced
   - screen
   - tmux
   - git
+
+- name: Install Python libs
+  yum: name={{ item }} state=present
+  with_items:
+  - python-devel
+  - python-setuptools
+
+- name: Install pip
+  easy_install: name=pip state=present
+
+- name: Install python pkgs
+  pip: name={{ item }}
+  with_items:
+  - ansible
