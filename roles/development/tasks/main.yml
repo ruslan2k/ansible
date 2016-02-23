@@ -6,6 +6,7 @@
   - "@Development tools"
   - vim-enhanced
   - screen
+  - strace
   - tmux
   - git
 
