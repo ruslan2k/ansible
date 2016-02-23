@@ -13,13 +13,15 @@
 - name: Install Python libs
   yum: name={{ item }} state=present
   with_items:
+  - python-pip
   - python-devel
   - python-setuptools
 
-- name: Install pip
-  easy_install: name=pip state=present
+#- name: Install pip
+#  easy_install: name=pip state=present
 
 - name: Install python pkgs
   pip: name={{ item }}
   with_items:
+  - sshpubkeys
   - ansible
