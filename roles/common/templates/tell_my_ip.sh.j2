@@ -2,8 +2,8 @@
 
 dns_api_key={{dns_api_key}}
 
-iif=$(/usr/sbin/ip ro show default | awk '/default/{print $5; exit}')
-iip=$(/usr/sbin/ip -o -4 addr show $iif \
+iif=$(/sbin/ip ro show default | awk '/default/{print $5; exit}')
+iip=$(/sbin/ip -o -4 addr show $iif \
     | awk '/inet /{split ($4, a, "/"); print a[1]; exit}')
 hn=$(hostname)
 dns_ip=$(dig +short $hn)
@@ -12,7 +12,6 @@ echo hostname[$hn] iip[$iip] dns_ip[$dns_ip]
 
 if [ "$iip" != "$dns_ip" ]; then
     curl --silent --max-time 10 \
-        --data "dns_api_key=$dns_api_key&ip=$iip&host=$hn" {{dns_api_url}}
+        --data "dns_api_key=$dns_api_key&ip=$iip&host=$hn" \
+        {{dns_api_url}}
 fi
-
-
