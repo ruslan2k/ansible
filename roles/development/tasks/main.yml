@@ -4,6 +4,7 @@
   yum: name={{ item }} state=present
   with_items:
   - "@Development tools"
+  - xorg-x11-fonts-Type1 # for virtual box
   - vim-enhanced
   - screen
   - strace
@@ -15,10 +16,9 @@
   with_items:
   - python-pip
   - python-devel
-  - python-setuptools
 
-#- name: Install pip
-#  easy_install: name=pip state=present
+- name: Update pip
+  pip: name=pip state=latest
 
 - name: Install python pkgs
   pip: name={{ item }}
