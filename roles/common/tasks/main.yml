@@ -1,7 +1,7 @@
 ---
 
-- name: Debug
-  debug: var=test_var
+#- name: Debug
+#  debug: var=test_var
 
 - name: Install common pkgs
   yum: name={{ item }} state=present
@@ -10,6 +10,7 @@
   - epel-release
   - bind-utils
   - traceroute
+  - logwatch
   - wget
 
 - name: Copy root cert
@@ -22,5 +23,13 @@
     mode=0750 owner=nobody group=root
 
 - name: Add DNS IP script to cron
+  cron: name="Tell ip on start" special_time=reboot user=nobody
+    job="sh /usr/local/bin/tell_my_ip.sh &>/dev/null"
+- name: Add DNS IP script to cron
   cron: name="Tell ip" minute="*/5" user=nobody
     job="sh /usr/local/bin/tell_my_ip.sh &>/dev/null"
+
+- name: Forward root email
+  lineinfile: "dest=/etc/aliases insertafter=EOF line='root: {{ root_email }}'"
+- name: Update aliases
+  command: newaliases
