@@ -4,8 +4,10 @@
   yum: name={{ item }} state=present
   with_items:
   - "@Development tools"
-  - xorg-x11-fonts-Type1 # for virtual box
+  - xorg-x11-fonts-Type1  # virtual box
+  - xorg-x11-fonts-misc   # xterm
   - vim-enhanced
+  - python34
   - screen
   - strace
   - tmux
@@ -23,5 +25,6 @@
 - name: Install python pkgs
   pip: name={{ item }}
   with_items:
+  - virtualenv
   - sshpubkeys
   - ansible
