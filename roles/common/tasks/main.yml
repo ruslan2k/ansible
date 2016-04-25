@@ -32,4 +32,4 @@
 - name: Forward root email
   lineinfile: "dest=/etc/aliases insertafter=EOF line='root: {{ root_email }}'"
 - name: Update aliases
-  command: newaliases
+  shell: "newaliases || echo cant connect to mta"
