@@ -1,0 +1,8 @@
+---
+
+- name: Copy configs
+  copy: src={{ item }} dest=/etc/nagios3/conf.d/{{ item }}
+  with_items:
+  - contact_admin.cfg
+  - flying_dutchman.cfg
+
