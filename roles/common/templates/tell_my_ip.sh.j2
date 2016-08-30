@@ -11,6 +11,7 @@ dns_ip=$(dig +short $hn)
 echo hostname[$hn] iip[$iip] dns_ip[$dns_ip]
 
 if [ "$iip" != "$dns_ip" ]; then
+    echo "IPs dont match"
     curl --silent --max-time 10 \
         --data "dns_api_key=$dns_api_key&ip=$iip&host=$hn" \
         {{dns_api_url}}
