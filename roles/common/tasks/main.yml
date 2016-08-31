@@ -4,7 +4,7 @@
 #  debug: var=test_var
 
 - name: Install common pkgs
-  yum: name={{ item }} state=present
+  yum: name={{ item }}
   with_items:
   - libselinux-python
   - epel-release
@@ -12,6 +12,12 @@
   - traceroute
   - logwatch
   - wget
+
+- name: Install Cron
+  yum: name=cronie
+
+- name: Start crond
+  service: name=crond enabled=yes state=started
 
 - name: Copy root cert
   copy: content={{aptinfo_root_pem_cert}} mode=0644
