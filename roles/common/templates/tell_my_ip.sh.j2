@@ -5,10 +5,22 @@ process_ip () {
     ip_addr="$2"
     interface="$3"
 
-    echo "$host_name"
-    echo "$ip_addr"
-    echo "$interface"
+    dns_name="$interface.$host_name"
+    dns_ip=$(dig +short "$dns_name")
+
+    echo "dns_ip=$dns_ip"
+    echo "ip_addr=$ip_addr"
+    echo "dns_name=$dns_name"
+    echo "interface=$interface"
     echo
+
+    if [ "$ip_addr" != "$dns_ip" ]; then
+        echo "IPs dont match"
+        curl --silent --max-time 10 \
+        --insecure \
+        --data "dns_api_key=$dns_api_key&ip=$iip&host=$hn" \
+        {{ dns_api_url }}
+    fi
 }
 
 dns_api_key={{dns_api_key}}
@@ -24,7 +36,7 @@ echo "$ips" \
     | while read line; do \
         i_p=$(echo "$line"| cut -d " " -f 2); \
         i_f=$(echo "$line"| cut -d " " -f 1); \
-        process_ip "host" "$i_p" "$i_f"; \
+        process_ip "$hn" "$i_p" "$i_f"; \
     done
 #exit
 
