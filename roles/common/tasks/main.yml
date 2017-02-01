@@ -12,6 +12,7 @@
 
 - name: Disable set-hostname
   command: scarletctl disable set-hostname
+  ignore_errors: yes
 
 - name: Install Cron
   yum: name=cronie
@@ -28,7 +29,7 @@
   template: src=tell_my_ip.sh.j2 dest=/usr/local/bin/tell_my_ip.sh
     mode=0750 owner=nobody group=root
 
-- name: Add DNS IP script to cron
+- name: Run DNS script at start
   cron: name="Tell ip on start" special_time=reboot user=nobody
     job="sh /usr/local/bin/tell_my_ip.sh &>/dev/null"
 - name: Add DNS IP script to cron
@@ -38,4 +39,10 @@
 - name: Forward root email
   lineinfile: "dest=/etc/aliases insertafter=EOF line='root: {{ root_email }}'"
 - name: Update aliases
-  shell: "newaliases || echo cant connect to mta"
+  shell: "newaliases"
+  ignore_errors: yes
+
+- name: debug
+  template: src=vars.j2 dest=/root/debug.txt
+  
+
