@@ -1,0 +1,27 @@
+---
+
+- name: Remove system pkg
+  package:
+    name: docker
+    state: absent
+
+- name: Add pkgs
+  package:
+    name: yum-utils
+
+- name: Add docker repository
+  get_url:
+    url: https://docs.docker.com/engine/installation/linux/repo_files/centos/docker.repo
+    dest: /etc/yum.repos.d/docker.repo
+    mode: 0644
+
+- name: Install docker-engine
+  package:
+    name: docker-engine
+    state: present
+
+- name: start service
+  service:
+    name: docker
+    enabled: yes
+    state: started

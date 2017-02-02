@@ -1,0 +1,38 @@
+---
+
+- name: Check if swap exists
+  shell: free  | awk '/^Swap/ {print "swap size:" $2; exit !$2}'
+  ignore_errors: yes
+  register: swap_enabled
+
+- name: Check swap file
+  stat: path=/swapfile1
+  register: swap_file
+  when: swap_enabled|failed
+
+- name: Create swap file if not exists
+  command: "{{ item }}"
+  with_items:
+  - dd if=/dev/zero of=/swapfile1 bs=1024 count=1048576
+  - chown root:root /swapfile1
+  - chmod 0600 /swapfile1
+  - mkswap /swapfile1
+  when: swap_file.stat.exists is defined and swap_file.stat.exists == False
+
+- name: Check swap file 2
+  stat: path=/swapfile1
+  register: swap_file_2
+
+- name: Swap On
+  command: swapon /swapfile1
+  when: swap_enabled|failed and swap_file_2.stat.exists == True
+
+- name: Add swap to fstab
+  lineinfile: dest=/etc/fstab regexp='^/swapfile1'
+    line='/swapfile1 none swap sw 0 0'
+  when: swap_file_2.stat.exists
+
+- name: Check swap space
+  command: free -m
+  register: free_m
+- debug: var=free_m.stdout_lines
