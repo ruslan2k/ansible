@@ -4,6 +4,7 @@
   remote_user: root
   roles:
   - common
+  - users
 
 - hosts: docker
   remote_user: root

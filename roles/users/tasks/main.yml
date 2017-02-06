@@ -1,5 +1,13 @@
 ---
 
-- name: user
-  user: name=ruslan password={{ ruslan_shadow }}
+- name: Ruslan
+  user:
+    name: ruslan
+    password: "{{ ruslan_shadow }}"
+    shell: /bin/bash
+    groups: docker
 
+- name: Ssh key ruslan
+  authorized_key:
+    user: ruslan
+    key: https://raw.githubusercontent.com/ruslan2k/public-files/master/docker/centos-ssh/id_rsa.pub
