@@ -1,4 +1,5 @@
 ---
 
 - name: user
+  user: name=ruslan password={{ ruslan_shadow }}
 
