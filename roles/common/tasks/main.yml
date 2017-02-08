@@ -1,10 +1,9 @@
 ---
 
 - name: Install common pkgs
-  yum: name={{ item }}
+  package: name={{ item }}
   with_items:
   - libselinux-python
-  - epel-release
   - bind-utils
   - traceroute
   - logwatch
@@ -14,8 +13,8 @@
   command: scarletctl disable set-hostname
   ignore_errors: yes
 
-- name: Install Cron
-  yum: name=cronie
+#- name: Install Cron
+#  yum: name=cronie
 
 - name: Start crond
   service: name=crond enabled=yes state=started
