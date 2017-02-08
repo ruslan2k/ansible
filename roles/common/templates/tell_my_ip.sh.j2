@@ -1,6 +1,37 @@
 #!/bin/bash
 
-process_ip () {
+main ()
+{
+    dns_api_key={{ dns_api_key }}
+    
+    iif=$(/sbin/ip ro show default | awk '/default/{print $5; exit}')
+    iip=$(/sbin/ip -o -4 addr show $iif \
+        | awk '/inet /{split ($4, a, "/"); print a[1]; exit}')
+    hn=$(hostname)
+    dns_ip=$(dig +short $hn)
+    
+    ips=$(/sbin/ip -o -4 addr| awk '/inet /{split($4, a, "/"); print $2, a[1] }')
+    echo "$ips" \
+        | while read line; do \
+            i_p=$(echo "$line"| cut -d " " -f 2); \
+            i_f=$(echo "$line"| cut -d " " -f 1); \
+            process_ip "$hn" "$i_p" "$i_f"; \
+        done
+    #exit
+    
+    echo hostname[$hn] iip[$iip] dns_ip[$dns_ip]
+    
+    if [ "$iip" != "$dns_ip" ]; then
+        echo "IPs dont match"
+        curl --silent --max-time 10 \
+            --insecure \
+            --data "dns_api_key=$dns_api_key&ip=$iip&host=$hn" \
+            {{dns_api_url}}
+    fi
+}
+
+process_ip ()
+{
     host_name="$1"
     ip_addr="$2"
     interface="$3"
@@ -23,29 +54,6 @@ process_ip () {
     fi
 }
 
-dns_api_key={{dns_api_key}}
+main
 
-iif=$(/sbin/ip ro show default | awk '/default/{print $5; exit}')
-iip=$(/sbin/ip -o -4 addr show $iif \
-    | awk '/inet /{split ($4, a, "/"); print a[1]; exit}')
-hn=$(hostname)
-dns_ip=$(dig +short $hn)
-
-ips=$(/sbin/ip -o -4 addr| awk '/inet /{split($4, a, "/"); print $2, a[1] }')
-echo "$ips" \
-    | while read line; do \
-        i_p=$(echo "$line"| cut -d " " -f 2); \
-        i_f=$(echo "$line"| cut -d " " -f 1); \
-        process_ip "$hn" "$i_p" "$i_f"; \
-    done
-#exit
-
-echo hostname[$hn] iip[$iip] dns_ip[$dns_ip]
-
-if [ "$iip" != "$dns_ip" ]; then
-    echo "IPs dont match"
-    curl --silent --max-time 10 \
-        --insecure \
-        --data "dns_api_key=$dns_api_key&ip=$iip&host=$hn" \
-        {{dns_api_url}}
-fi
+# vi: set ft=sh :

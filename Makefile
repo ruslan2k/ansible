@@ -1,5 +1,5 @@
 test: venv
-	venv/bin/ansible-playbook site.yml -i hosts --diff
+	venv/bin/ansible-playbook site.yml --diff
 
 dev:
 	ansible-playbook development.yml -i hosts --diff
