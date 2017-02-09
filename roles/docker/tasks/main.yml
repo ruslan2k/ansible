@@ -5,20 +5,35 @@
     name: docker
     state: absent
 
-- name: Add pkgs
-  package:
-    name: yum-utils
+- name: Install pkgs
+  package: name={{ item }}
+  with_items:
+  - apt-transport-https
+  - ca-certificates
+  - software-properties-common
+  when: ansible_distribution == "Debian"
+
+- apt_key:
+    url: "https://yum.dockerproject.org/gpg"
+    state: present
 
 - name: Add docker repository
   get_url:
     url: https://docs.docker.com/engine/installation/linux/repo_files/centos/docker.repo
     dest: /etc/yum.repos.d/docker.repo
     mode: 0644
+  when: ansible_distribution == "CentOS"
+
+- name: Add apt repository
+  apt_repository:
+    repo: "deb https://apt.dockerproject.org/repo/ debian-{{ ansible_distribution_release }} main"
+  when: ansible_distribution == "Debian"
 
 - name: Install docker-engine
   package:
     name: docker-engine
     state: present
+    update_cache: yes
 
 - name: start service
   service:

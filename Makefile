@@ -4,6 +4,9 @@ test: venv
 dev:
 	ansible-playbook development.yml -i hosts --diff
 
+docker:
+	ansible-playbook docker.yml --diff
+
 nagios:
 	ansible-playbook nagios.yml -i hosts --diff
 
