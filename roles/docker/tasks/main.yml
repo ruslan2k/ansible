@@ -16,6 +16,7 @@
 - apt_key:
     url: "https://yum.dockerproject.org/gpg"
     state: present
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
 - name: Add docker repository
   get_url:
@@ -33,7 +34,6 @@
   package:
     name: docker-engine
     state: present
-    update_cache: yes
 
 - name: start service
   service:
