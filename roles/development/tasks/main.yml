@@ -7,24 +7,29 @@
   - xorg-x11-fonts-Type1  # virtual box
   - xorg-x11-fonts-misc   # xterm
   - vim-enhanced
-  - python34
   - screen
   - strace
   - tmux
   - git
 
-- name: Install Python libs
+- name: Add VirtualBox repo
   yum: name={{ item }} state=present
   with_items:
-  - python-pip
-  - python-devel
+  - "http://download.virtualbox.org/virtualbox/5.1.14/VirtualBox-5.1-5.1.14_112924_fedora24-1.x86_64.rpm"
+  when: ansible_distribution == "Fedora" and ansible_distribution_version == "24"
 
-- name: Update pip
-  pip: name=pip state=latest
-
-- name: Install python pkgs
-  pip: name={{ item }}
-  with_items:
-  - virtualenv
-  - sshpubkeys
-  - ansible
+#- name: Install Python libs
+#  yum: name={{ item }} state=present
+#  with_items:
+#  - python-pip
+#  - python-devel
+#
+#- name: Update pip
+#  pip: name=pip state=latest
+#
+#- name: Install python pkgs
+#  pip: name={{ item }}
+#  with_items:
+#  - virtualenv
+#  - sshpubkeys
+#  - ansible

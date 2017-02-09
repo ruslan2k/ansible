@@ -2,7 +2,7 @@ test: venv
 	venv/bin/ansible-playbook site.yml --diff
 
 dev:
-	ansible-playbook development.yml -i hosts --diff
+	ansible-playbook development.yml --diff
 
 docker:
 	ansible-playbook docker.yml --diff
