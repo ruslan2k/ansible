@@ -2,8 +2,13 @@
 
 - name: Remove system pkg
   package:
-    name: docker
+    name: "{{item}}"
     state: absent
+  with_items:
+  - container-selinux
+  - docker
+  - docker-common
+  - docker-selinux
 
 - name: Install pkgs
   package: name={{ item }}
@@ -12,6 +17,11 @@
   - ca-certificates
   - software-properties-common
   when: ansible_distribution == "Debian"
+
+- name: install pkgs for Fedora
+  package:
+    name: dnf-plugins-core
+  when: ansible_distribution == "Fedora"
 
 - apt_key:
     url: "https://yum.dockerproject.org/gpg"
