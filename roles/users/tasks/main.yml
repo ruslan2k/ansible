@@ -1,5 +1,8 @@
 ---
 
+- name: Add docker group
+  group: name=docker
+
 - name: Ruslan
   user:
     name: ruslan

@@ -1,5 +1,5 @@
-test: venv
-	venv/bin/ansible-playbook site.yml --diff
+test:
+	ansible-playbook site.yml --diff
 
 dev:
 	ansible-playbook development.yml --diff
@@ -8,7 +8,7 @@ docker:
 	ansible-playbook docker.yml --diff
 
 nagios:
-	ansible-playbook nagios.yml -i hosts --diff
+	ansible-playbook nagios.yml -i --diff
 
 venv:
 	virtualenv venv
