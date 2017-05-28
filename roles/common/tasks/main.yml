@@ -8,6 +8,7 @@
   - traceroute
   - logwatch
   - wget
+  when: ansible_distribution == 'CentOS'
 
 - name: Disable set-hostname
   command: scarletctl disable set-hostname
@@ -18,11 +19,13 @@
 
 - name: Start crond
   service: name=crond enabled=yes state=started
+  when: ansible_distribution == 'CentOS'
 
 - name: Copy root cert
   copy: content={{aptinfo_root_pem_cert}} mode=0644
     dest=/etc/pki/ca-trust/source/anchors/aptinfo-root.pem
   notify: [update-ca-trust]
+  when: ansible_distribution == 'CentOS'
 
 - name: Copy my_ip script
   template: src=tell_my_ip.sh.j2 dest=/usr/local/bin/tell_my_ip.sh
