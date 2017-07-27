@@ -55,10 +55,16 @@
   shell: "newaliases"
   ignore_errors: yes
 
+- name: Disallow root SSH access
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^PermitRootLogin"
+              line="PermitRootLogin without-password"
+              state=present
+  #notify: Restart ssh
+
 #- name: debug
 #  template: src=vars.j2 dest=/root/debug.txt
 
 - name: set hostname
   template: src=hostname.j2 dest=/etc/hostname backup=yes
-  
 
