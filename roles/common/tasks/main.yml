@@ -10,8 +10,19 @@
   - wget
   when: ansible_distribution == 'CentOS'
 
-- name: Disable set-hostname
+- name: Disable scarlet-vscale
   command: scarletctl disable set-hostname
+  with_items:
+  - scarlet-init-early
+  - scarlet-init
+  - scarlet-nsd
+  ignore_errors: yes
+
+- name: Remove scarlet-vscale
+  package: name={{ item }}
+  with_items:
+  - scarlet-nsd
+  - scarlet-init
   ignore_errors: yes
 
 #- name: Install Cron

@@ -1,5 +1,5 @@
 test:
-	ansible-playbook site.yml --diff
+	ansible-playbook site.yml --diff --check
 
 dev:
 	ansible-playbook development.yml --diff
