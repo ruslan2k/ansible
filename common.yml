@@ -5,6 +5,7 @@
   roles:
   - common
   - users
+  - swap
 
 - hosts: docker
   remote_user: root
