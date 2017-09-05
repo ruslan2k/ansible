@@ -3,11 +3,14 @@
 - name: Install common pkgs
   package: name={{ item }}
   with_items:
-  - libselinux-python
   - bind-utils
   - cron
   - traceroute
+  - epel-release
+  - libselinux-python
   - logwatch
+  - net-tools
+  - traceroute
   - wget
   when: ansible_distribution == 'CentOS'
 
