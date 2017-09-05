@@ -5,6 +5,7 @@
   with_items:
   - libselinux-python
   - bind-utils
+  - cron
   - traceroute
   - logwatch
   - wget
@@ -51,6 +52,7 @@
 
 - name: Forward root email
   lineinfile: "dest=/etc/aliases insertafter=EOF line='root: {{ root_email }}'"
+  ignore_errors: yes
 - name: Update aliases
   shell: "newaliases"
   ignore_errors: yes
@@ -67,4 +69,5 @@
 
 - name: set hostname
   template: src=hostname.j2 dest=/etc/hostname backup=yes
+  ignore_errors: yes
 
