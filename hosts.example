@@ -1,2 +1,2 @@
 [stream]
-1.2.3.4
+example.com ansible_host=192.168.100.103 ansible_port=2201 ansible_user=pi ansible_python_interpreter=/usr/bin/python3
