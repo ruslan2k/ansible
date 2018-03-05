@@ -14,6 +14,12 @@
   - wget
   when: ansible_distribution == 'CentOS'
 
+- name: Install common pkgs
+  package: name={{ item }}
+  with_items:
+  - encfs
+  when: ansible_distribution == 'Ubuntu'
+
 - name: Disable scarlet-vscale
   command: scarletctl disable set-hostname
   with_items:
