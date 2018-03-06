@@ -18,6 +18,13 @@
   package: name={{ item }}
   with_items:
   - encfs
+  - libmysqlclient-dev
+  - build-essential
+  - autoconf
+  - libtool 
+  - pkg-config
+  - python-dev
+  - python3-dev
   when: ansible_distribution == 'Ubuntu'
 
 - name: Disable scarlet-vscale
