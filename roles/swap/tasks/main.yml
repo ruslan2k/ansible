@@ -36,3 +36,10 @@
   command: free -m
   register: free_m
 - debug: var=free_m.stdout_lines
+
+- name: Swap only when absolutely necessary
+  sysctl:
+    name: vm.swappiness
+    value: 1
+    state: present
+
