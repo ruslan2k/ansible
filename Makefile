@@ -1,7 +1,7 @@
-AP:=venv/bin/ansible-playbook
+AP := venv/bin/ansible-playbook
 
 test:
-	$(AP) site.yml --diff --check
+	$(AP) site.yml --diff # --check
 
 dev:
 	ansible-playbook development.yml --diff
