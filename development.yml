@@ -1,6 +1,10 @@
 ---
 
-- hosts: development
-  remote_user: root
+- name: Dev Server
+  hosts: development
+  become: true
+
   roles:
+  - role: "nickjj.docker"
+    tags: ["docker"]
   - development

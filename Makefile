@@ -1,17 +1,20 @@
-AP := venv/bin/ansible-playbook
+AP=venv/bin/ansible-playbook
+AG=venv/bin/ansible-galaxy
 
 test:
 	$(AP) site.yml --diff # --check
 
-dev:
-	ansible-playbook development.yml --diff
+dev: venv
+	$(AP) development.yml --diff --check
 
 docker:
-	ansible-playbook docker.yml --diff
+	$(AP) docker.yml --diff
 
 nagios:
-	ansible-playbook nagios.yml -i --diff
+	$(AP) nagios.yml -i --diff
 
 venv:
-	virtualenv venv
+	sudo apt install virtualenv
+	virtualenv -p python3 venv
 	venv/bin/pip install -r requirements.txt
+	$(AG) install nickjj.docker
