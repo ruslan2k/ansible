@@ -12,6 +12,7 @@
   - strace
   - tmux
   - git
+  when: ansible_distribution == "CentOS"
 
 - name: Add VirtualBox repo
   yum: name={{ item }} state=present

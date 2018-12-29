@@ -5,7 +5,7 @@ test:
 	$(AP) site.yml --diff # --check
 
 dev: venv
-	$(AP) development.yml --diff --check
+	$(AP) development.yml --diff # --check
 
 docker:
 	$(AP) docker.yml --diff
@@ -18,3 +18,4 @@ venv:
 	virtualenv -p python3 venv
 	venv/bin/pip install -r requirements.txt
 	$(AG) install nickjj.docker
+
