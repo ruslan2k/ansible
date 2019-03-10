@@ -1,8 +1,11 @@
 ---
 
-- name: Add Docker group
+- name: Add groups
   group:
-    name: docker
+    name: "{{ item }}"
+  with_items:
+  - docker
+  - nagios
 
 - name: Ruslan
   user:
@@ -17,3 +20,9 @@
     user: ruslan
     key: https://raw.githubusercontent.com/ruslan2k/public-files/master/docker/centos-ssh/id_rsa.pub
 
+- name: Nagios user
+  user:
+    name: nagios
+    group: nagios
+    home: /var/lib/nagios
+    shell: /bin/sh
